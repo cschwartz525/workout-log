@@ -1,19 +1,33 @@
 import NextAuth from 'next-auth/next';
 import GoogleProvider from 'next-auth/providers/google';
+import User from '../../../models/user';
+import connectMongo from '../../../utils/connect-mongo';
 
 export default NextAuth({
     callbacks: {
         async session({ session, token }) {
-            console.log('session', session);
-            console.log('token', token);
+            const id = token.sub as string;
 
             if (session?.user) {
-                session.user.id = token.sub as string;
+                session.user.id = id;
+
+                // If user exists in the data store, pull user's data
+                // If user does not exist in the data store, create and persist a record for the user
+                try {
+                    await connectMongo();
+                    const userExists = await User.exists({ id });
+
+                    if (userExists) {
+                        const existingUser = await User.find({ id });
+                        console.log('User fetched', existingUser);
+                    } else {
+                        const newUser = await User.create({ id, name: session?.user.name });
+                        console.log('User created', newUser);
+                    }
+                } catch (error) {
+                    console.error(error);
+                }
             }
-
-            // If user exists in the data store, pull user's data
-
-            // If user does not exist in the data store, create and persist a record for the user
 
             return session;
         }

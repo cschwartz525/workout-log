@@ -18,7 +18,11 @@ export default NextAuth({
                     const userExists = await User.exists({ id });
 
                     if (!userExists) {
-                        const newUser = await User.create({ id, name: session?.user.name });
+                        const newUser = await User.create({
+                            id,
+                            name: session?.user.name,
+                            weeklyTarget: 0
+                        });
                         console.log('User created', newUser);
                     }
                 } catch (error) {

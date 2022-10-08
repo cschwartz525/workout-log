@@ -6,7 +6,9 @@ const userSchema = new Schema({
         required: true,
         unique: true
     },
-    name: String
+    name: String,
+    weeklyTarget: Number,
+    workouts: [{ type: Schema.Types.ObjectId, ref: 'Workout' }]
 });
 
 const User = models.User || model('User', userSchema);

@@ -3,12 +3,15 @@ import { GetServerSideProps, GetServerSidePropsContext, GetServerSidePropsResult
 import { Session } from 'next-auth';
 import { getSession, signOut } from 'next-auth/react';
 import Image from 'next/image';
+import WeeklyTarget from '../components/WeeklyTarget';
+import { User } from '../types/user';
 
 type IndexProps = {
-    session: Session
+    session: Session;
+    user: User;
 };
 
-const Index = ({ session }: IndexProps) => {
+const Index = ({ session, user }: IndexProps) => {
     if (session?.user) {
         return (
             <div>
@@ -19,6 +22,7 @@ const Index = ({ session }: IndexProps) => {
                     src={session.user.image as string}
                     width='50px'
                 />
+                <WeeklyTarget weeklyTarget={user.weeklyTarget} />
                 <button onClick={() => signOut()}>LOGOUT</button>
             </div>
         );
@@ -35,10 +39,17 @@ const Index = ({ session }: IndexProps) => {
 
 export const getServerSideProps: GetServerSideProps<IndexProps> = async (context: GetServerSidePropsContext) => {
     const session = await getSession(context);
+    const userId = session?.user?.id;
 
-    if (session) {
+    if (userId) {
+        const res = await fetch(`${process.env.API_BASE_URL}/api/users/${userId}`);
+        const { user } = await res.json();
+
         return {
-            props: { session }
+            props: {
+                session,
+                user: user[0]
+            }
         };
     } else {
         return {

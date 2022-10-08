@@ -1,40 +1,64 @@
 import React from 'react';
-import { GetServerSidePropsContext } from 'next';
-import { getSession, signIn, signOut, useSession } from 'next-auth/react';
+import { GetServerSideProps, GetServerSidePropsContext, GetServerSidePropsResult } from 'next';
+import { Session } from 'next-auth';
+import { getSession, signOut } from 'next-auth/react';
 import Image from 'next/image';
+import WeeklyTarget from '../components/WeeklyTarget';
+import { User } from '../types/user';
 
-const Login = () => {
-    const { data: session, status } = useSession({ required: true });
+type IndexProps = {
+    session: Session;
+    user: User;
+};
 
-    if (status === 'authenticated') {
+const Index = ({ session, user }: IndexProps) => {
+    if (session?.user) {
         return (
             <div>
-                <p>Welcome {session.user?.name}</p>
+                <p>Welcome {session.user.name}</p>
                 <Image 
                     alt=''
                     height='50px'
-                    src={session.user?.image as string}
+                    src={session.user.image as string}
                     width='50px'
                 />
+                <WeeklyTarget weeklyTarget={user.weeklyTarget} />
                 <button onClick={() => signOut()}>LOGOUT</button>
             </div>
         );
     } else {
         return (
             <div>
-                <p>You are not signed in</p>
-                <button onClick={() => signIn()}>LOGIN</button>
+                <h2>Error</h2>
+                <p>Please try logging out and logging in again</p>
+                <button onClick={() => signOut()}>LOGOUT</button>
             </div>
         );
     }
 };
 
-export default Login;
-
-export const getServerSideProps = async (context: GetServerSidePropsContext) => {
+export const getServerSideProps: GetServerSideProps<IndexProps> = async (context: GetServerSidePropsContext) => {
     const session = await getSession(context);
+    const userId = session?.user?.id;
 
-    return {
-        props: { session }
-    };
+    if (userId) {
+        const res = await fetch(`${process.env.API_BASE_URL}/api/users/${userId}`);
+        const { user } = await res.json();
+
+        return {
+            props: {
+                session,
+                user: user[0]
+            }
+        };
+    } else {
+        return {
+            redirect: {
+                destination: '/login',
+                permanent: false
+            }
+        }
+    }
 }
+
+export default Index;

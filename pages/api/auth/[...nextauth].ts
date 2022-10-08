@@ -17,10 +17,7 @@ export default NextAuth({
                     await connectMongo();
                     const userExists = await User.exists({ id });
 
-                    if (userExists) {
-                        const existingUser = await User.find({ id });
-                        console.log('User fetched', existingUser);
-                    } else {
+                    if (!userExists) {
                         const newUser = await User.create({ id, name: session?.user.name });
                         console.log('User created', newUser);
                     }

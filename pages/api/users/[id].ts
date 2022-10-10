@@ -1,6 +1,6 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
-import User from '../../../models/user';
-import connectMongo from '../../../utils/connect-mongo';
+import { User } from '../../../db/models';
+import connectMongo from '../../../db/connect-mongo';
 
 type UserData = {
     user: any;
@@ -10,7 +10,7 @@ type ErrorData = {
     error: string;
 };
 
-const handler = (
+const handler = async (
     req: NextApiRequest,
     res: NextApiResponse<UserData | ErrorData>
 ) => {
@@ -31,9 +31,10 @@ const getUser = async (
 
     try {
         await connectMongo();
-        const user = await User.find({ id });
+        const user = await User.findOne({ id }).populate('workouts');
         res.status(200).json({ user })
     } catch (error) {
+        console.error(error);
         res.status(500).json({ error: error as string });
     }
 };
@@ -49,6 +50,7 @@ const updateUser = async (
         const user = await User.findOneAndUpdate({ id }, req.body);
         res.status(200).json({ user })
     } catch (error) {
+        console.error(error);
         res.status(500).json({ error: error as string });
     }
 };

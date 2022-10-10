@@ -1,7 +1,7 @@
 import NextAuth from 'next-auth/next';
 import GoogleProvider from 'next-auth/providers/google';
-import User from '../../../models/user';
-import connectMongo from '../../../utils/connect-mongo';
+import { User } from '../../../db/models';
+import connectMongo from '../../../db/connect-mongo';
 
 export default NextAuth({
     callbacks: {

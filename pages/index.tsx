@@ -5,6 +5,7 @@ import { getSession, signOut } from 'next-auth/react';
 import Image from 'next/image';
 import WeeklyTarget from '../components/WeeklyTarget';
 import { User } from '../types/user';
+import WorkoutTable from '../components/WorkoutTable';
 
 type IndexProps = {
     session: Session;
@@ -12,7 +13,7 @@ type IndexProps = {
 };
 
 const Index = ({ session, user }: IndexProps) => {
-    if (session?.user) {
+    if (session?.user && user) {
         return (
             <div>
                 <p>Welcome {session.user.name}</p>
@@ -22,7 +23,11 @@ const Index = ({ session, user }: IndexProps) => {
                     src={session.user.image as string}
                     width='50px'
                 />
+                <hr />
                 <WeeklyTarget weeklyTarget={user.weeklyTarget} />
+                <hr />
+                <WorkoutTable workouts={user.workouts} />
+                <hr />
                 <button onClick={() => signOut()}>LOGOUT</button>
             </div>
         );
@@ -48,7 +53,7 @@ export const getServerSideProps: GetServerSideProps<IndexProps> = async (context
         return {
             props: {
                 session,
-                user: user[0]
+                user: user
             }
         };
     } else {

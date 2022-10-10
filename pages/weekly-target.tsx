@@ -46,7 +46,7 @@ export const getServerSideProps: GetServerSideProps<WeeklyTargetProps> = async (
         return {
             props: {
                 session,
-                user: user[0]
+                user: user
             }
         };
     } else {

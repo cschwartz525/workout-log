@@ -16,19 +16,9 @@ const Index = ({ session, user }: IndexProps) => {
     if (session?.user && user) {
         return (
             <div>
-                <p>Welcome {session.user.name}</p>
-                <Image 
-                    alt=''
-                    height='50px'
-                    src={session.user.image as string}
-                    width='50px'
-                />
-                <hr />
                 <WeeklyTarget weeklyTarget={user.weeklyTarget} />
                 <hr />
                 <WorkoutTable workouts={user.workouts} />
-                <hr />
-                <button onClick={() => signOut()}>LOGOUT</button>
             </div>
         );
     } else {

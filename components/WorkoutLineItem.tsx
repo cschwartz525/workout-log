@@ -1,4 +1,5 @@
 import React from 'react';
+import { formatDate, formatTime } from '../utils/formatters';
 import { Workout } from '../types/workout';
 
 type WorkoutLineItemProps = {
@@ -7,8 +8,8 @@ type WorkoutLineItemProps = {
 
 const WorkoutLineItem = ({ workout }: WorkoutLineItemProps) => (
     <tr>
-        <td>{workout.date?.toString()}</td>
-        <td>{workout.duration}</td>
+        <td>{formatDate(workout.date)}</td>
+        <td>{formatTime(workout.duration)}</td>
         <td>{workout.type}</td>
     </tr>
 );

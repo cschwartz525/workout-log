@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useCallback, useState } from 'react';
 import { GetServerSideProps, GetServerSidePropsContext } from 'next';
 import { NextRouter, useRouter } from 'next/router';
 import { getSession } from 'next-auth/react';
@@ -8,11 +8,24 @@ type WeeklyTargetProps = {
     user: User;
 };
 
-const updateWeeklyTarget = async (
+type UpdateWeeklyTargetArgs = {
+    router: NextRouter,
+    setError: (error: boolean) => void,
     userId: string,
-    weeklyTarget: string,
-    router: NextRouter
-) => {
+    weeklyTarget: string
+};
+
+const updateWeeklyTarget = async ({
+    router,
+    setError,
+    userId,
+    weeklyTarget
+}: UpdateWeeklyTargetArgs) => {
+    if (parseInt(weeklyTarget) < 0) {
+        setError(true);
+        return;
+    }
+
     await fetch(`/api/users/${userId}`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -24,13 +37,27 @@ const updateWeeklyTarget = async (
 
 const WeeklyTarget = ({ user }: WeeklyTargetProps) => {
     const router = useRouter();
+    const [error, setError] = useState(false);
     const [minutes, setMinutes] = useState<string>(user.weeklyTarget?.toString() as string);
+
+    const handleSave = useCallback(() => updateWeeklyTarget({
+        router,
+        setError,
+        userId: user.id,
+        weeklyTarget: minutes,
+    }), [minutes, router, setError, user]);
 
     return (
         <div>
             <p>Set weekly target in minutes</p>
-            <input onChange={(e) => setMinutes(e.target.value)} type='number' value={minutes}></input>
-            <button onClick={() => updateWeeklyTarget(user.id, minutes, router)}>SAVE</button>
+            <input
+                min='0'
+                onChange={(e) => setMinutes(e.target.value)}
+                type='number'
+                value={minutes}
+            />
+            {error && <p>Please enter a positive number</p>}
+            <button onClick={handleSave}>SAVE</button>
         </div>
     );
 };

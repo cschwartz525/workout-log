@@ -1,5 +1,6 @@
 import React from 'react';
 import { useRouter } from 'next/router';
+import { formatTime } from '../utils/formatters';
 
 type WeeklyTargetProps = {
     weeklyTarget: number | undefined;
@@ -11,7 +12,7 @@ const WeeklyTarget = ({ weeklyTarget }: WeeklyTargetProps) => {
     if (weeklyTarget) {
         return (
             <div>
-                <p>Weekly Target: {weeklyTarget} minutes</p>
+                <p>Weekly Target: {formatTime(weeklyTarget)}</p>
                 <button onClick={() => router.push('/weekly-target')}>Update</button>
             </div>
         );

@@ -12,11 +12,6 @@ const userSchema = new Schema({
 });
 
 const workoutSchema = new Schema({
-    id: {
-        type: String,
-        required: true,
-        unique: true
-    },
     date: Date,
     duration: Number,
     type: String,

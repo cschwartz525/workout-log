@@ -2,10 +2,10 @@ import React from 'react';
 import { GetServerSideProps, GetServerSidePropsContext, GetServerSidePropsResult } from 'next';
 import { Session } from 'next-auth';
 import { getSession, signOut } from 'next-auth/react';
-import Image from 'next/image';
 import WeeklyTarget from '../components/WeeklyTarget';
 import { User } from '../types/user';
 import WorkoutTable from '../components/WorkoutTable';
+import { getMondayOfCurrentWeek, getMondayOfNextWeek, getTenYearsAgo } from '../utils/date';
 
 type IndexProps = {
     session: Session;
@@ -14,11 +14,27 @@ type IndexProps = {
 
 const Index = ({ session, user }: IndexProps) => {
     if (session?.user && user) {
+        const startOfThisWeek = getMondayOfCurrentWeek();
+        const startOfNextWeek = getMondayOfNextWeek();
+        const tenYearsAgo = getTenYearsAgo();
+
         return (
             <div>
                 <WeeklyTarget weeklyTarget={user.weeklyTarget} />
                 <hr />
-                <WorkoutTable workouts={user.workouts} />
+                <h3>This Week</h3>
+                <WorkoutTable
+                    endDate={startOfNextWeek}
+                    startDate={startOfThisWeek}
+                    workouts={user.workouts}
+                />
+                <hr />
+                <h3>All Time</h3>
+                <WorkoutTable
+                    endDate={startOfThisWeek}
+                    startDate={tenYearsAgo}
+                    workouts={user.workouts}
+                />
             </div>
         );
     } else {

@@ -5,7 +5,13 @@ import { getSession, signOut } from 'next-auth/react';
 import WeeklyTarget from '../components/WeeklyTarget';
 import { User } from '../types/user';
 import WorkoutTable from '../components/WorkoutTable';
-import { getMondayOfCurrentWeek, getMondayOfNextWeek, getTenYearsAgo } from '../utils/date';
+import {
+    getEndOfCurrentWeek,
+    getEndOfPreviousWeek,
+    getStartOfCurrentWeek,
+    getTenYearsAgo
+} from '../utils/date';
+import { formatDate } from '../utils/formatters';
 
 type IndexProps = {
     session: Session;
@@ -14,24 +20,25 @@ type IndexProps = {
 
 const Index = ({ session, user }: IndexProps) => {
     if (session?.user && user) {
-        const startOfThisWeek = getMondayOfCurrentWeek();
-        const startOfNextWeek = getMondayOfNextWeek();
+        const endOfCurrentWeek = getEndOfCurrentWeek();
+        const endOfPreviousWeek = getEndOfPreviousWeek();
+        const StartOfCurrentWeek = getStartOfCurrentWeek();
         const tenYearsAgo = getTenYearsAgo();
 
         return (
             <div>
                 <WeeklyTarget weeklyTarget={user.weeklyTarget} />
                 <hr />
-                <h3>This Week</h3>
+                <h3>This Week ({formatDate(StartOfCurrentWeek)} - {formatDate(endOfCurrentWeek)})</h3>
                 <WorkoutTable
-                    endDate={startOfNextWeek}
-                    startDate={startOfThisWeek}
+                    endDate={endOfCurrentWeek}
+                    startDate={StartOfCurrentWeek}
                     workouts={user.workouts}
                 />
                 <hr />
                 <h3>All Time</h3>
                 <WorkoutTable
-                    endDate={startOfThisWeek}
+                    endDate={endOfPreviousWeek}
                     startDate={tenYearsAgo}
                     workouts={user.workouts}
                 />

@@ -14,12 +14,12 @@ const handler = async (
     req: NextApiRequest,
     res: NextApiResponse<WorkoutData | ErrorData>
 ) => {
-    const { userId } = req.body;
+    const { date, duration, type, userId } = req.body;
 
     try {
         await connectMongo();
-        const user = await User.findOne({ id: '101927703181492899764' });
-        const workout = await Workout.create({ id: 1, date: Date.now(), duration: 30, type: 'Run', user });
+        const user = await User.findOne({ id: userId });
+        const workout = await Workout.create({ date, duration, type, user });
         user.workouts.push(workout);
         user.save();
         res.status(200).json({ workout })

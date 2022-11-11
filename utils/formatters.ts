@@ -11,8 +11,8 @@ export const formatDate = (date: Date): string => {
 
     date = new Date(date);
 
-    const day = date.getDate();
-    const month = date.getMonth();
+    const day = date.getDate() + 1;
+    const month = date.getMonth() + 1;
     const year = date.getFullYear();
 
     let dayString = `${day}`;

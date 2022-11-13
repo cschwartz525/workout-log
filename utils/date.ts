@@ -1,5 +1,13 @@
-export const getStartOfCurrentWeek = (): Date => {
+const getToday = (): Date => {
     const today = new Date();
+    today.setUTCHours(0, 0, 0);
+
+    return today;
+}
+
+export const getStartOfCurrentWeek = (): Date => {
+    const today = getToday();
+
     const monday = new Date();
 
     // Set date to Monday of the current week
@@ -11,7 +19,8 @@ export const getStartOfCurrentWeek = (): Date => {
 };
 
 export const getEndOfCurrentWeek = (): Date => {
-    const today = new Date();
+    const today = getToday();
+    
     const monday = new Date();
 
     // Set date to Monday of the following week
@@ -29,7 +38,7 @@ export const getEndOfPreviousWeek = (): Date => {
 };
 
 export const getTenYearsAgo = (): Date => {
-    const today = new Date();
+    const today = getToday();
 
     // Set year to 10 years ago
     const tenYearsAgo = new Date(today.setFullYear(today.getFullYear() - 10));

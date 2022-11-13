@@ -33,6 +33,7 @@ const Index = ({ session, user }: IndexProps) => {
                     endDate={endOfCurrentWeek}
                     heading={`This Week (${formatDate(StartOfCurrentWeek)} - ${formatDate(endOfCurrentWeek)})`}
                     showAddButton
+                    showTotal
                     startDate={StartOfCurrentWeek}
                     workouts={user.workouts}
                 />

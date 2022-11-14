@@ -1,18 +1,27 @@
 import React from 'react';
 import { useRouter } from 'next/router';
+import { Workout } from '../types/workout';
 import { formatTime } from '../utils/formatters';
+import { calculateTotalDuration } from '../utils/workouts';
 
 type WeeklyTargetProps = {
     weeklyTarget: number | undefined;
+    workouts: Workout[];
 };
 
-const WeeklyTarget = ({ weeklyTarget }: WeeklyTargetProps) => {
+const WeeklyTarget = ({ weeklyTarget, workouts }: WeeklyTargetProps) => {
     const router = useRouter();
+    const weeklyTotal = calculateTotalDuration(workouts);
 
     if (weeklyTarget) {
         return (
             <div>
-                <p>Weekly Target: {formatTime(weeklyTarget)}</p>
+                <p>🎯 Weekly target: <strong>{formatTime(weeklyTarget)}</strong> 🎯</p>
+                {
+                    weeklyTarget > weeklyTotal
+                    ? <p>⏱️ Remaining time to hit target: <strong>{formatTime(weeklyTarget - weeklyTotal)}</strong> ⏱️</p>
+                    : <p>🎉 <strong>Congratulations!</strong> You hit your target for this week 🎉</p>
+                }
                 <button onClick={() => router.push('/weekly-target')}>Update</button>
             </div>
         );

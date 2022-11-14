@@ -12,6 +12,7 @@ import {
     getTenYearsAgo
 } from '../utils/date';
 import { formatDate } from '../utils/formatters';
+import { filterAndSortWorkouts } from '../utils/workouts';
 
 type IndexProps = {
     session: Session;
@@ -22,27 +23,28 @@ const Index = ({ session, user }: IndexProps) => {
     if (session?.user && user) {
         const endOfCurrentWeek = getEndOfCurrentWeek();
         const endOfPreviousWeek = getEndOfPreviousWeek();
-        const StartOfCurrentWeek = getStartOfCurrentWeek();
+        const startOfCurrentWeek = getStartOfCurrentWeek();
         const tenYearsAgo = getTenYearsAgo();
+        const workoutsThisWeek = filterAndSortWorkouts(user.workouts, startOfCurrentWeek, endOfCurrentWeek);
+        const historicalWorkouts = filterAndSortWorkouts(user.workouts, tenYearsAgo, endOfPreviousWeek);
 
         return (
             <div>
-                <WeeklyTarget weeklyTarget={user.weeklyTarget} />
-                <hr />
-                <WorkoutTable
-                    endDate={endOfCurrentWeek}
-                    heading={`This Week (${formatDate(StartOfCurrentWeek)} - ${formatDate(endOfCurrentWeek)})`}
-                    showAddButton
-                    showTotal
-                    startDate={StartOfCurrentWeek}
-                    workouts={user.workouts}
+                <WeeklyTarget
+                    weeklyTarget={user.weeklyTarget}
+                    workouts={workoutsThisWeek}
                 />
                 <hr />
                 <WorkoutTable
-                    endDate={endOfPreviousWeek}
+                    heading={`This Week (${formatDate(startOfCurrentWeek)} - ${formatDate(endOfCurrentWeek)})`}
+                    showAddButton
+                    showTotal
+                    workouts={workoutsThisWeek}
+                />
+                <hr />
+                <WorkoutTable
                     heading='All Time'
-                    startDate={tenYearsAgo}
-                    workouts={user.workouts}
+                    workouts={historicalWorkouts}
                 />
             </div>
         );

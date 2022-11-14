@@ -48,7 +48,7 @@ const WeeklyTarget = ({ user }: WeeklyTargetProps) => {
     }), [minutes, router, setError, user]);
 
     return (
-        <div>
+        <form>
             <p>Set weekly target in minutes</p>
             <input
                 min='0'
@@ -57,8 +57,15 @@ const WeeklyTarget = ({ user }: WeeklyTargetProps) => {
                 value={minutes}
             />
             {error && <p>Please enter a positive number</p>}
-            <button onClick={handleSave}>SAVE</button>
-        </div>
+            <button
+                onClick={(e) => {
+                    e.preventDefault();
+                    handleSave();
+                }}
+            >
+                SAVE
+            </button>
+        </form>
     );
 };
 

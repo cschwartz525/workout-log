@@ -18,6 +18,7 @@ const AddButton = styled.button`
     border-radius: 50%;
     cursor: pointer;
     height: 30px;
+    padding: 0;
     width: 30px;
 `;
 

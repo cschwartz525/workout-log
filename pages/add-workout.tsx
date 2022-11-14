@@ -77,6 +77,7 @@ const AddWorkout = ({ user }: AddWorkoutProps) => {
                 min={0}
                 name='duration'
                 onChange={(e) => setDuration(parseInt(e.target.value))}
+                placeholder='Duration (min)'
                 type='number'
             />
             <select

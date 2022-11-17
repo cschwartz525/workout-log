@@ -35,6 +35,10 @@ const UserDetails = styled.div`
 
 const UserName = styled.span`
     margin-right: 5px;
+
+    @media screen and (max-width: 400px) {
+        display: none;
+    }
 `;
 
 const NavBar = () => {

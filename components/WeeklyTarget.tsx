@@ -19,7 +19,7 @@ const WeeklyTarget = ({ weeklyTarget, workouts }: WeeklyTargetProps) => {
                 <p>🎯 Weekly target: <strong>{formatTime(weeklyTarget)}</strong> 🎯</p>
                 {
                     weeklyTarget > weeklyTotal
-                    ? <p>⏱️ Remaining time to hit target: <strong>{formatTime(weeklyTarget - weeklyTotal)}</strong> ⏱️</p>
+                    ? <p>⏱️ Remaining time: <strong>{formatTime(weeklyTarget - weeklyTotal)}</strong> ⏱️</p>
                     : <p>🎉 <strong>Congratulations!</strong> You hit your target for this week 🎉</p>
                 }
                 <button onClick={() => router.push('/weekly-target')}>UPDATE</button>

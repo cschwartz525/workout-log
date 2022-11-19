@@ -2,14 +2,13 @@ import React from 'react';
 import { GetServerSideProps, GetServerSidePropsContext } from 'next';
 import { Session } from 'next-auth';
 import { getSession, signOut } from 'next-auth/react';
+import HistoricalWorkouts from '../components/HistoricalWorkouts';
 import WeeklyTarget from '../components/WeeklyTarget';
-import { User } from '../types/user';
 import WorkoutTable from '../components/WorkoutTable';
+import { User } from '../types/user';
 import {
     getEndOfCurrentWeek,
-    getEndOfPreviousWeek,
     getStartOfCurrentWeek,
-    getTenYearsAgo
 } from '../utils/date';
 import { formatDate } from '../utils/formatters';
 import { filterAndSortWorkouts } from '../utils/workouts';
@@ -22,11 +21,8 @@ type IndexProps = {
 const Index = ({ session, user }: IndexProps) => {
     if (session?.user && user) {
         const endOfCurrentWeek = getEndOfCurrentWeek();
-        const endOfPreviousWeek = getEndOfPreviousWeek();
         const startOfCurrentWeek = getStartOfCurrentWeek();
-        const tenYearsAgo = getTenYearsAgo();
         const workoutsThisWeek = filterAndSortWorkouts(user.workouts, startOfCurrentWeek, endOfCurrentWeek);
-        const historicalWorkouts = filterAndSortWorkouts(user.workouts, tenYearsAgo, endOfPreviousWeek);
 
         return (
             <div>
@@ -41,10 +37,8 @@ const Index = ({ session, user }: IndexProps) => {
                     showTotal
                     workouts={workoutsThisWeek}
                 />
-                <hr />
-                <WorkoutTable
-                    heading='All Time'
-                    workouts={historicalWorkouts}
+                <HistoricalWorkouts
+                    workouts={user.workouts}
                 />
             </div>
         );

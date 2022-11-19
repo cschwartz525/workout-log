@@ -22,12 +22,6 @@ const AddButton = styled.button`
     width: 30px;
 `;
 
-const Header = styled.div`
-    align-items: center;
-    display: flex;
-    justify-content: space-between;
-`;
-
 const WorkoutTable = ({
     heading,
     showAddButton,
@@ -38,10 +32,13 @@ const WorkoutTable = ({
 
     return (
         <div>
-            <Header>
-                <h3>{heading}</h3>
-                {showAddButton && <AddButton onClick={() => router.push('/add-workout')}>+</AddButton>}
-            </Header>
+            <div className='table-header'>
+                <h3 className='left'>{heading}</h3>
+                <div className='right'>
+                    {showTotal && <span>Total: {formatTime(calculateTotalDuration(workouts))}</span>}
+                    {showAddButton && <AddButton onClick={() => router.push('/add-workout')}>+</AddButton>}
+                </div>
+            </div>
             <table>
                 <tr>
                     <th>Date</th>
@@ -50,14 +47,6 @@ const WorkoutTable = ({
                 </tr>
                 {
                     workouts.map(workout => <WorkoutLineItem key={workout.id} workout={workout} />)
-                }
-                {
-                    showTotal &&
-                    <tr>
-                        <td>Total</td>
-                        <td>{formatTime(calculateTotalDuration(workouts))}</td>
-                        <td></td>
-                    </tr>
                 }
             </table>
         </div>

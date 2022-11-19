@@ -7,7 +7,8 @@ body {
 }
 
 body {
-  background: linear-gradient(135deg, #ffffff, #e0e0e0, #ffffff);
+  background: #ffffff;
+  background: linear-gradient(135deg, #ffffff, #e0e0e0, #ffffff) no-repeat fixed;
 }
 
 a {
@@ -77,7 +78,8 @@ hr {
 
   body {
     color: white;
-    background: linear-gradient(135deg, #000000, #1f1f1f, #000000);;
+    background: #000000;
+    background: linear-gradient(135deg, #000000, #1f1f1f, #000000) no-repeat fixed;
   }
 
   tr:nth-child(odd) {

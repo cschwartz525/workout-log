@@ -5,6 +5,9 @@ const getToday = (): Date => {
     return today;
 }
 
+/**
+ * @returns Monday of the current week in UTC
+ */
 export const getStartOfCurrentWeek = (): Date => {
     const today = getToday();
 
@@ -18,6 +21,9 @@ export const getStartOfCurrentWeek = (): Date => {
     return monday;
 };
 
+/**
+ * @returns Sunday of the current week in UTC
+ */
 export const getEndOfCurrentWeek = (): Date => {
     const today = getToday();
     
@@ -31,21 +37,24 @@ export const getEndOfCurrentWeek = (): Date => {
     return monday;
 };
 
-export const getEndOfPreviousWeek = (): Date => {
-    const mondayOfCurrentWeek = getStartOfCurrentWeek();
+/**
+ * @param offset Number of weeks ago
+ * @returns Last day of the week (Sunday) given a number of weeks prior
+ */
+export const getEndOfWeek = (offset: number = 1): Date => {
+    const endOfCurrentWeek = getEndOfCurrentWeek();
 
-    return new Date(mondayOfCurrentWeek.setDate(mondayOfCurrentWeek.getDate() - 1));
+    return new Date(endOfCurrentWeek.setDate(endOfCurrentWeek.getDate() - 7 * offset));
 };
 
-export const getTenYearsAgo = (): Date => {
-    const today = getToday();
+/**
+ * @param offset Number of weeks ago
+ * @returns First day of the week (Monday) given a number of weeks prior
+ */
+export const getStartOfWeek = (offset: number = 1): Date => {
+    const startOfCurrentWeek = getStartOfCurrentWeek();
 
-    // Set year to 10 years ago
-    const tenYearsAgo = new Date(today.setFullYear(today.getFullYear() - 10));
-    // Set time to beginning of day
-    tenYearsAgo.setUTCHours(0, 0, 0);
-
-    return tenYearsAgo;
+    return new Date(startOfCurrentWeek.setDate(startOfCurrentWeek.getDate() - 7 * offset));
 };
 
 /**

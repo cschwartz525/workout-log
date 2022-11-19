@@ -67,11 +67,38 @@ button:hover {
 }
 
 h3 {
-  margin-top: 0;
+  margin: 0;
 }
 
 hr {
   margin: 20px 0;
+}
+
+.table-header {
+  align-items: center;
+  background-color: #eeeeee;
+  display: flex;
+  justify-content: space-between;
+  padding: 10px;
+}
+
+.table-header .left {
+  max-width: 50%;
+}
+
+.table-header .right button {
+  margin-left: 10px;
+}
+
+@media screen and (max-width: 400px) {
+  html,
+  body {
+    padding: 0 10px;
+  }
+
+  .table-header .right button {
+    margin-left: 5px;
+  }
 }
 
 @media (prefers-color-scheme: dark) {
@@ -107,5 +134,9 @@ hr {
   form input,
   form select {
     color: #ffffff;
+  }
+
+  .table-header {
+    background-color: #444444;
   }
 }

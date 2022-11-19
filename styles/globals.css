@@ -9,6 +9,7 @@ body {
 body {
   background: #ffffff;
   background: linear-gradient(135deg, #ffffff, #e0e0e0, #ffffff) no-repeat fixed;
+  color: #000000;
 }
 
 a {
@@ -45,6 +46,7 @@ form {
 
 form input,
 form select {
+  color: #000000;
   margin-bottom: 12px;
   padding: 10px;
 }
@@ -53,6 +55,7 @@ button {
   background-color: #99c0ff;
   border: none;
   border-radius: 5px;
+  color: #000000;
   cursor: pointer;
   padding: 10px 20px;
 }
@@ -77,7 +80,7 @@ hr {
   }
 
   body {
-    color: white;
+    color: #ffffff;
     background: #000000;
     background: linear-gradient(135deg, #000000, #1f1f1f, #000000) no-repeat fixed;
   }
@@ -92,11 +95,17 @@ hr {
 
   button {
     background-color: #4477dd;
+    color: #ffffff;
   }
 
   button:active,
   button:focus,
   button:hover {
     background-color: #2255bb;
+  }
+
+  form input,
+  form select {
+    color: #ffffff;
   }
 }

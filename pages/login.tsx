@@ -5,7 +5,7 @@ import { getSession, signIn } from 'next-auth/react';
 const Login = () => (
     <div>
         <p>You are not signed in</p>
-        <button onClick={() => signIn()}>LOGIN</button>
+        <button onClick={() => signIn('google')}>LOGIN</button>
     </div>
 );
 

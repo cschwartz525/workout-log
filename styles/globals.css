@@ -90,6 +90,10 @@ hr {
   margin-left: 10px;
 }
 
+.wrapper {
+  margin-bottom: 20px;
+}
+
 @media screen and (max-width: 400px) {
   html,
   body {

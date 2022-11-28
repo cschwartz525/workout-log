@@ -25,7 +25,7 @@ const Index = ({ session, user }: IndexProps) => {
         const workoutsThisWeek = filterAndSortWorkouts(user.workouts, startOfCurrentWeek, endOfCurrentWeek);
 
         return (
-            <div>
+            <div className='wrapper'>
                 <WeeklyTarget
                     weeklyTarget={user.weeklyTarget}
                     workouts={workoutsThisWeek}

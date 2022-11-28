@@ -29,7 +29,7 @@ export const getEndOfCurrentWeek = (): Date => {
     
     const monday = new Date();
 
-    // Set date to Monday of the following week
+    // Set date to Sunday of the current week
     monday.setDate(today.getDate() - today.getDay() + 7)
     // Set time to beginning of day
     monday.setUTCHours(0, 0, 0);

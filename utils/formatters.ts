@@ -11,23 +11,11 @@ export const formatDate = (date: Date): string => {
 
     date = new Date(date);
 
-    const day = date.getDate() + 1;
-    const month = date.getMonth() + 1;
-    const year = date.getFullYear();
-
-    let dayString = `${day}`;
-    let monthString = `${month}`;
-    let yearString = year.toString().slice(-2);
-
-    if (day < 10) {
-        dayString = `0${dayString}`;
-    }
-
-    if (month < 10) {
-        monthString = `0${monthString}`;
-    }
-
-    return `${monthString}/${dayString}/${yearString}`;
+    return date.toLocaleString('en-US', {
+        day: '2-digit',
+        month: '2-digit',
+        year: '2-digit'
+    });
 };
 
 /**

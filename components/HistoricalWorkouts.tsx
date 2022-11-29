@@ -16,26 +16,23 @@ type Week = {
 
 const groupWorkoutsByWeek = (workouts: Workout[]): Week[] => {
     const res = [];
-    const _workouts = [...workouts];
+    
+    const _workouts = workouts
+        .map(workout => ({ ...workout, date: new Date(workout.date) }))
+        .sort((a, b) => b.date.getTime() - a.date.getTime());
 
     let offset = 0;
+    let i = 0;
 
-    while (_workouts.length) {
+    while (i < _workouts.length) {
         let startDate = getStartOfWeek(offset);
         let endDate = getEndOfWeek(offset);
 
         const cur = [];
-        let i = 0;
 
-        while (i < _workouts.length) {
-            const workout = _workouts[i];
-
-            if (isDateInRange(new Date(workout.date), startDate, endDate)) {
-                cur.push(workout);
-                _workouts.splice(i, 1);
-            } else {
-                i++;
-            }
+        while (i < _workouts.length && isDateInRange(new Date(_workouts[i].date), startDate, endDate)) {
+            cur.push(_workouts[i]);
+            i++;
         }
 
         res.push({ startDate, endDate, workouts: cur });

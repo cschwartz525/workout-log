@@ -4,7 +4,8 @@ import { Workout } from '../types/workout';
 import {
     getEndOfWeek,
     getStartOfWeek,
-    isDateInRange
+    isDateInRange,
+    normalizeDate
 } from '../utils/date';
 import { formatDate } from '../utils/formatters';
 
@@ -18,7 +19,7 @@ const groupWorkoutsByWeek = (workouts: Workout[]): Week[] => {
     const res = [];
     
     const _workouts = workouts
-        .map(workout => ({ ...workout, date: new Date(workout.date) }))
+        .map(workout => ({ ...workout, date: normalizeDate(workout.date) }))
         .sort((a, b) => b.date.getTime() - a.date.getTime());
 
     let offset = 0;
@@ -30,7 +31,7 @@ const groupWorkoutsByWeek = (workouts: Workout[]): Week[] => {
 
         const cur = [];
 
-        while (i < _workouts.length && isDateInRange(new Date(_workouts[i].date), startDate, endDate)) {
+        while (i < _workouts.length && isDateInRange(normalizeDate(_workouts[i].date), startDate, endDate)) {
             cur.push(_workouts[i]);
             i++;
         }

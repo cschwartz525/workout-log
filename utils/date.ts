@@ -1,8 +1,21 @@
-const getToday = (): Date => {
-    const today = new Date();
-    today.setUTCHours(0, 0, 0);
+export const normalizeDate = (date: Date | string): Date => {
+    let result: Date;
 
-    return today;
+    if (typeof date === 'string') {
+        result = new Date(date);
+    } else {
+        result = date;
+    }
+
+    result.setUTCHours(12, 0, 0);
+
+    return result;
+};
+
+export const getToday = (): Date => {
+    const today = new Date();
+
+    return normalizeDate(today);
 }
 
 /**
@@ -14,11 +27,9 @@ export const getStartOfCurrentWeek = (): Date => {
     const monday = new Date();
 
     // Set date to Monday of the current week
-    monday.setDate(today.getDate() - today.getDay() + 1)
-    // Set time to beginning of day
-    monday.setUTCHours(0, 0, 0);
+    monday.setDate(today.getDate() - today.getDay() + 1);
 
-    return monday;
+    return normalizeDate(monday);
 };
 
 /**
@@ -30,11 +41,9 @@ export const getEndOfCurrentWeek = (): Date => {
     const monday = new Date();
 
     // Set date to Sunday of the current week
-    monday.setDate(today.getDate() - today.getDay() + 7)
-    // Set time to beginning of day
-    monday.setUTCHours(0, 0, 0);
+    monday.setDate(today.getDate() - today.getDay() + 7);
 
-    return monday;
+    return normalizeDate(monday);
 };
 
 /**

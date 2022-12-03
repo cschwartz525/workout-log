@@ -1,5 +1,5 @@
 import { Workout } from '../types/workout';
-import { isDateInRange } from '../utils/date';
+import { isDateInRange, normalizeDate } from '../utils/date';
 
 /**
  * Formats, filters, and sorts an array of workouts given a start and end date
@@ -12,7 +12,7 @@ import { isDateInRange } from '../utils/date';
 export const filterAndSortWorkouts = (workouts: Workout[], startDate: Date, endDate: Date): Workout[] => (
     workouts
         // Dates come back from API as string and need to be converted to Date before filtering and sorting
-        .map(workout => ({ ...workout, date: new Date(workout.date) }))
+        .map(workout => ({ ...workout, date: normalizeDate(workout.date) }))
         // Limit workouts in the table between startDate and endDate
         .filter(workout => isDateInRange(workout.date, startDate, endDate))
         // Sort workouts by date descending

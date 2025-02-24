@@ -55,9 +55,9 @@ const NavBar = () => {
                         <UserName>{data.user.name}</UserName>
                         <Avatar 
                             alt=''
-                            height='50px'
+                            height={50}
                             src={data.user.image as string}
-                            width='50px'
+                            width={50}
                         />
                     </DropdownTrigger>
                     {
